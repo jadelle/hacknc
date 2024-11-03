@@ -1,69 +1,73 @@
-$(document).ready(function() {
-	var number = 0;
-	$("#next").click(function(){
-		$(".slide" + number).slideUp();
-		$(".menu" + number).removeClass('current');
-		$(".slide" + (number + 1)).slideDown();
-		$(".menu" + (number + 1)).addClass('current');
+document.getElementsByTagName("h1")[0].style.fontSize = "6vw";
 
-		if (number === 2){
-			$("#next").css('transform', 'rotate(180deg)');
-		}
+let log = console.log;
 
-		if (number === 3){
-			$(".slide3").slideUp();
-			$(".menu3").removeClass('current');
-			$(".slide0").slideDown();
-			$(".menu0").addClass('current');
-			$("#next").css('transform', 'rotate(0deg)');
+let classes = ['bard', 'wizard', 'wanderer', 'witch', 'dancer', 'scholar'];
+let songs = [
+    { title: 'Popular from Wicked', url: 'https://www.youtube.com/embed/400LbTzZP6s?autoplay=1' },
+    { title: 'Defying Gravity from Wicked', url: 'https://www.youtube.com/embed/l0Bs_eaXaCo?autoplay=1' },
+    { title: 'Swan Lake', url: 'https://www.youtube.com/embed/9cNQFB0TDfY?autoplay=1' },
+    { title: 'Your Fault from Into the Woods', url: 'https://www.youtube.com/embed/vyJFcsY0ckU?autoplay=1' },
+    { title: 'Flowers from Hadestown', url: 'https://www.youtube.com/embed/IzDzpJcQ8l4?autoplay=1' },
+    { title: 'The Mad Hatter from Wonderland', url: 'https://www.youtube.com/embed/xc9PICpnAhI?autoplay=1' },
+    { title: 'Say My Name from Beetlejuice', url: 'https://www.youtube.com/embed/nHKNP3sN_P4?autoplay=1' }
+];
 
-			number = -1;
-		}
+let photo = [
+    "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg",
+    "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_1280.jpg",
+    "https://images.unsplash.com/photo-1477601263568-180e2c6d046e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", <!--Snow -->
+  "https://images.unsplash.com/photo-1481018085669-2bc6e4f00eed?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1603262439120-3e17d13bab3f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+];
 
-		number += 1;
-	});
+// Select items
+let maxClassIndex = classes.length - 1;
+let maxSongIndex = songs.length - 1;
+let maxPhotoIndex = photo.length - 1;
 
-	$(".menu0").click(function() {
-		$(".slide" + number).slideUp();
-		$(".menu" + number).removeClass('current');
-		$(".menu0").addClass('current');
-		$(".slide0").slideDown();
+// Function to generate and display a random class and song
+function generateRandomAll() {
+    // Generate a random class
+    let classNum = Math.floor(Math.random() * (maxClassIndex + 1));
+    let randomClass = classes[classNum];
+    log(randomClass); // Log to the console
 
-		number = 0;
+    // Generate a random song
+    let songNum = Math.floor(Math.random() * (maxSongIndex + 1));
+    let randomSong = songs[songNum];
+    log(randomSong.title); // Log to the console
 
-		$("#next").css('transform', 'rotate(0deg)');
-	});
+    // Get a random photo from the array
+    let photoNum = Math.floor(Math.random() * (maxPhotoIndex + 1)); // Generate a random index
+    let randomPhoto = photo[photoNum]; // Use the index to get the photo URL
+    log(randomPhoto); // Log the photo URL to the console
 
-	$(".menu1").click(function() {
-		$(".slide" + number).slideUp();
-		$(".menu" + number).removeClass('current');
-		$(".menu1").addClass('current');
-		$(".slide1").slideDown();
+    // Display the random class and song in the HTML
+    document.getElementById("class-display").innerText = `Your character is a ${randomClass}`;
+    document.getElementById("song-display").innerText = `who embodies the song ${randomSong.title} and is obsessed with...`;
 
-		number = 1;
+    // Update the iframe to show the YouTube video
+    document.getElementById("song-video").src = randomSong.url;
 
-		$("#next").css('transform', 'rotate(0deg)');
-	});
+    // Create an image element
+    let img = document.createElement('img');
+    img.src = randomPhoto; // Set the source to the random photo
+    img.alt = 'Random photo'; // Alt text for the image
+    img.style.width = '100%'; // Optional: make the image full width
+    img.style.height = 'auto'; // Maintain aspect ratio
 
-	$(".menu2").click(function() {
-		$(".slide" + number).slideUp();
-		$(".menu" + number).removeClass('current');
-		$(".menu2").addClass('current');
-		$(".slide2").slideDown();
+    // Clear previous images and append the new image
+    let photoDisplay = document.getElementById("photo-display");
+    photoDisplay.innerHTML = ''; // Clear previous image
+    photoDisplay.appendChild(img); // Append the image
 
-		number = 2;
+    // Show the photo display
+    photoDisplay.style.display = 'block'; // Make it visible
 
-		$("#next").css('transform', 'rotate(0deg)');
-	});
+    // Show the video iframe
+    document.getElementById("song-video").style.display = 'block'; // Make the video visible
+}
 
-	$(".menu3").click(function() {
-		$(".slide" + number).slideUp();
-		$(".menu" + number).removeClass('current');
-		$(".menu3").addClass('current');
-		$(".slide3").slideDown();
-
-		number = 3;
-
-		$("#next").css('transform', 'rotate(180deg)');
-	});
-});
+// Event listener for button
+document.getElementById("generate-btn").addEventListener("click", generateRandomAll);
